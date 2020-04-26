@@ -14,7 +14,7 @@ public class GamerController {
     @Autowired
     private IGamer gamerRepository;
 
-    @GetMapping("/")
+    @GetMapping("/listGamers")
     public ResponseEntity findAllGamers(){
         return ResponseEntity.ok(gamerRepository.findAll());
     }
@@ -31,7 +31,7 @@ public class GamerController {
         return ResponseEntity.ok().body(gamer);
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity createGamer(@RequestBody GameUser gamer){
         if(gamer == null){
             return ResponseEntity.badRequest().body("Cannot create gamer with empty fields ");

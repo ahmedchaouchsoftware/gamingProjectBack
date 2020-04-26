@@ -13,7 +13,7 @@ public class GameCharacterController {
     @Autowired
     private IGameCharacter gameCharacterRepository;
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public ResponseEntity findAllGameCharacters(){
         return ResponseEntity.ok(gameCharacterRepository.findAll());
     }
@@ -30,7 +30,7 @@ public class GameCharacterController {
         return ResponseEntity.ok(gameCharacter);
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity createGameCharacter(@RequestBody GameCharacter gameCharacter){
         if(gameCharacter == null){
             return ResponseEntity.badRequest().body("Cannot create game character with empty fields");
