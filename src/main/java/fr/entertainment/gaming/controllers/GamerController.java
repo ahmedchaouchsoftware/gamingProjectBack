@@ -14,7 +14,7 @@ public class GamerController {
     @Autowired
     private IGamer gamerRepository;
 
-    @GetMapping("/listGamers")
+    @GetMapping("/list")
     public ResponseEntity findAllGamers(){
         return ResponseEntity.ok(gamerRepository.findAll());
     }
