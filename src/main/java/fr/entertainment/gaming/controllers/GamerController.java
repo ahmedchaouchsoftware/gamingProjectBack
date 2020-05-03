@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/v1/gamers")
 public class GamerController {
 
