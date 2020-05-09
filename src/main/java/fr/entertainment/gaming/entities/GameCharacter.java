@@ -1,5 +1,6 @@
 package fr.entertainment.gaming.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties(value = { "gamer" })
 public class GameCharacter implements Serializable {
 
     @Id
@@ -32,6 +34,6 @@ public class GameCharacter implements Serializable {
     private boolean sharedGameCharacter;
 
     @ManyToOne
-    @JoinColumn(name="idGamer")
-    private GameUser gamer;
+    @JoinColumn(name = "idGamer")
+    public GameUser gamer;
 }

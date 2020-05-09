@@ -1,7 +1,9 @@
 package fr.entertainment.gaming.controllers;
 
 import fr.entertainment.gaming.entities.GameCharacter;
+import fr.entertainment.gaming.entities.GameUser;
 import fr.entertainment.gaming.repositories.IGameCharacter;
+import fr.entertainment.gaming.repositories.IGamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,27 @@ public class GameCharacterController {
 
     @Autowired
     private IGameCharacter gameCharacterRepository;
+    @Autowired
+    private IGamer gamerRepository;
 
     @GetMapping("/list")
     public ResponseEntity findAllGameCharacters(){
         return ResponseEntity.ok(gameCharacterRepository.findAll());
+    }
+
+    @GetMapping("/allCharacters/{idGamer}")
+    public ResponseEntity findAllGameCharactersByGamer(@PathVariable Long idGamer){
+        if(idGamer == null){
+            return ResponseEntity.badRequest().body("Can not find Game Characters with null Gamer");
+        }
+
+        GameUser gamer = gamerRepository.getOne(idGamer);
+
+        if(gamer == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(gameCharacterRepository.findByGamerOrSharedGameCharacter(gamer,true));
     }
 
     @GetMapping("/{idGameCharacter}")
