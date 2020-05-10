@@ -1,6 +1,7 @@
 package fr.entertainment.gaming.controllers;
 
 import fr.entertainment.gaming.entities.GameCharacter;
+import fr.entertainment.gaming.entities.GameUser;
 import fr.entertainment.gaming.repositories.IGameCharacter;
 import fr.entertainment.gaming.repositories.IGamer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class PhotoController {
     private IGameCharacter gameCharacterRespository;
     @Autowired
     private IGamer gamerRepository;
+
     @GetMapping("/character/{idGameCharacter}")
     public ResponseEntity photoGameCharacter(@PathVariable Long idGameCharacter){
         if(idGameCharacter == null){
@@ -31,6 +33,10 @@ public class PhotoController {
             return ResponseEntity.notFound().build();
         }
 
+        if(gameCharacter.getPhotoGameCharacter() == null){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_GIF)
                 .contentType(MediaType.IMAGE_JPEG)
@@ -38,4 +44,29 @@ public class PhotoController {
                 .body(new InputStreamResource(new ByteArrayInputStream(gameCharacter.getPhotoGameCharacter())));
 
     }
+
+    @GetMapping("/gamer/{idGamer}")
+    public ResponseEntity photoGamer(@PathVariable Long idGamer){
+        if(idGamer == null){
+            return ResponseEntity.badRequest().body("Can not get Gamer photo with null ID");
+        }
+
+        GameUser gamer = gamerRepository.getOne(idGamer);
+        if(gamer == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        if(gamer.getPhotoGamer() == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_GIF)
+                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new InputStreamResource(new ByteArrayInputStream(gamer.getPhotoGamer())));
+
+    }
+
+
 }

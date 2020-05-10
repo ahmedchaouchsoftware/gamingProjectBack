@@ -2,17 +2,15 @@ package fr.entertainment.gaming.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,6 +31,6 @@ public class GameUser implements Serializable {
     @Lob
     private byte[] photoGamer;
 
-    @OneToMany(mappedBy = "gamer")
+    @OneToMany(mappedBy = "gamer",fetch = FetchType.EAGER)
     private List<GameCharacter> charactersOfGamer;
 }
