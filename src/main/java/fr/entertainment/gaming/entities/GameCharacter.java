@@ -24,12 +24,17 @@ public class GameCharacter implements Serializable {
 
     private String nameGameCharacter;
 
+    private String legendGameCharacter;
+
     private String categoryGameCharacter;
 
     private String strengthGameCharacter;
 
     @Lob
     private byte[] photoGameCharacter;
+
+    @Transient
+    private Long idOwner;
 
     private boolean sharedGameCharacter;
 

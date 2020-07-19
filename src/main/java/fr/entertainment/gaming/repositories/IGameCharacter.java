@@ -9,4 +9,8 @@ import java.util.List;
 public interface IGameCharacter extends JpaRepository<GameCharacter,Long> {
 
     List<GameCharacter> findByGamerOrSharedGameCharacter(GameUser gamer, boolean shared);
+
+    List<GameCharacter> findByGamer(GameUser gamer);
+
+    List<GameCharacter> findBySharedGameCharacterAndGamerNotLike(boolean shared,GameUser gamer);
 }

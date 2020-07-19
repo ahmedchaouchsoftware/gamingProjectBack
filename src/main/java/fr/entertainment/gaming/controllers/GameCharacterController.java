@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/v1/gamecharacters")
@@ -34,8 +36,12 @@ public class GameCharacterController {
         if(gamer == null) {
             return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(gameCharacterRepository.findByGamerOrSharedGameCharacter(gamer,true));
+        List<GameCharacter> gamerCharacters = gameCharacterRepository.findByGamer(gamer);
+        List<GameCharacter> sharedCharacters = gameCharacterRepository.findBySharedGameCharacterAndGamerNotLike(true,gamer);
+        gamerCharacters.forEach(character -> character.setIdOwner(idGamer));
+        sharedCharacters.forEach(character -> character.setIdOwner(-1L));
+        gamerCharacters.addAll(sharedCharacters);
+        return ResponseEntity.ok(gamerCharacters);
     }
 
     @GetMapping("/{idGameCharacter}")
@@ -80,7 +86,7 @@ public class GameCharacterController {
         if(gameCharacter == null){
             return ResponseEntity.notFound().build();
         }
-        gameCharacter.setSharedGameCharacter(isShared);
+        gameCharacter.setSharedGameCharacter(!isShared);
         return ResponseEntity.ok(gameCharacterRepository.save(gameCharacter));
     }
 }
